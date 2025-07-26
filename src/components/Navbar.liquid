@@ -1,0 +1,37 @@
+<nav x-data="{ isMenuOpen: false }">
+  <div class="flex items-center justify-between">
+    <div class="h-full px-2.5">
+      <button @click="isMenuOpen = !isMenuOpen">
+        <img
+          x-show="!isMenuOpen"
+          src="/assets/images/hamburger.svg"
+          alt="Hamburger icon" />
+        <img
+          x-show="isMenuOpen"
+          src="/assets/images/close.svg"
+          alt="Close icon"
+          x-cloak />
+      </button>
+    </div>
+    <div>
+      <a href="/">
+        <img
+          src="//www.lucchese.com/cdn/shop/files/Lucchese_Bootmaker_RGB_04086.png?v=1614632364&amp;width=320"
+          alt="Lucchese Bootmaker Logotype"
+          class="max-w-40 h-[42px]">
+      </a>
+    </div>
+    <div class="flex items-center">
+      <div class="flex justify-center items-center size-[3rem]">
+        <button>
+          <img src="/assets/images/search.svg" alt="Search icon" />
+        </button>
+      </div>
+      <div class="min-w-[3.5rem] size-[3rem] flex justify-center items-center">
+        <button>
+          <img src="/assets/images/cart.svg" alt="Cart icon" />
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
