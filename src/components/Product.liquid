@@ -42,11 +42,11 @@
           class="w-full h-auto object-contain"
           alt="Product image" />
       </div>
-      <div class="flex gap-0.5 overflow-x-auto">
+      <div class="flex gap-0.5 overflow-x-auto scroll-smooth snap-x snap-mandatory">
         <template x-for="(img, idx) in images" :key="idx">
           <img
             :src="img.src"
-            class="w-[90px] object-cover cursor-pointer border-b-2"
+            class="w-[90px] object-cover cursor-pointer border-b-2 snap-start"
             :class="{' border-b-black': selectedImage === idx, 'border-b-transparent': selectedImage !== idx}"
             @click="selectedImage = idx"
             alt="Product thumbnail" />
@@ -109,7 +109,7 @@
               alt="Chevron icon"
               class="icon-chevron">
           </button>
-          <button class="w-full border uppercase text-sm tracking-[2px] p-4 mb-6 bg-[#0C2752] text-white h-16 sticky bottom-0">
+          <button class="w-full uppercase text-sm tracking-[2px] p-4 mb-6 bg-[#0C2752] text-white h-16 sticky bottom-[20px] z-50">
             Add to cart - $<span x-text="parseInt(selectedPrice).toLocaleString()"></span>
           </button>
         </div>
