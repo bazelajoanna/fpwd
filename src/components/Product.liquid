@@ -136,47 +136,51 @@
               <div>
                 <span>Size:</span>
                 <div class="grid grid-cols-4 gap-2 mt-2">
-                  {% for variant in product.product.variants %}
-                    <button
-                      class="p-[10px] border w-[59px] h-[56px]"
-                      :class="{'border-2': selectedSize === '{{ variant.option1 }}'}"
-                      @click="selectedSize = '{{ variant.option1 }}'">
-                      <span :class="{'font-medium': selectedSize === '{{ variant.option1 }}'}">{{ variant.option1 }}</span>
-                    </button>
+                  {% for option in product.product.options %}
+                    {% if option.name == "Size" %}
+                      {% for value in option.values %}
+                        <button
+                          class="p-[10px] border w-[59px] h-[56px]"
+                          :class="{'border-2': selectedSize === '{{ value }}'}"
+                          @click="selectedSize = '{{ value }}'">
+                          <span :class="{'font-medium': selectedSize === '{{ value }}'}">{{ value }}</span>
+                        </button>
+                      {% endfor %}
+                    {% endif %}
                   {% endfor %}
                 </div>
               </div>
               <div class="mt-8">
                 <span>Width:</span>
                 <div class="grid grid-cols-4 gap-2 mt-2">
-                  {% assign unique_widths = '' | split: '' %}
-                  {% for variant in product.product.variants %}
-                    {% unless unique_widths contains variant.option2 %}
-                      {% assign unique_widths = unique_widths | push: variant.option2 %}
-                      <button
-                        class="p-[10px] border w-[59px] h-[56px]"
-                        :class="{'border-2': selectedWidth === '{{ variant.option2 }}'}"
-                        @click="selectedWidth = '{{ variant.option2 }}'">
-                        <span :class="{'font-medium': selectedWidth === '{{ variant.option2 }}'}">{{ variant.option2 }}</span>
-                      </button>
-                    {% endunless %}
+                  {% for option in product.product.options %}
+                    {% if option.name == "Width" %}
+                      {% for value in option.values %}
+                        <button
+                          class="p-[10px] border w-[59px] h-[56px]"
+                          :class="{'border-2': selectedWidth === '{{ value }}'}"
+                          @click="selectedWidth = '{{ value }}'">
+                          <span :class="{'font-medium': selectedWidth === '{{ value }}'}">{{ value }}</span>
+                        </button>
+                      {% endfor %}
+                    {% endif %}
                   {% endfor %}
                 </div>
               </div>
               <div class="mt-8">
                 <span>Toe + heel:</span>
                 <div class="grid grid-cols-4 gap-2 mt-2">
-                  {% assign unique_widths = '' | split: '' %}
-                  {% for variant in product.product.variants %}
-                    {% unless unique_widths contains variant.option3 %}
-                      {% assign unique_widths = unique_widths | push: variant.option3 %}
-                      <button
-                        class="p-[10px] border w-max h-[56px]"
-                        :class="{'border-2': selectedToeHeel === '{{ variant.option3 }}'}"
-                        @click="selectedToeHeel = '{{ variant.option3 }}'">
-                        <span :class="{'font-medium': selectedToeHeel === '{{ variant.option3 }}'}">{{ variant.option3 }}</span>
-                      </button>
-                    {% endunless %}
+                  {% for option in product.product.options %}
+                    {% if option.name == "Toe + Heel" %}
+                      {% for value in option.values %}
+                        <button
+                          class="p-[10px] border w-max h-[56px]"
+                          :class="{'border-2': selectedToeHeel === '{{ value }}'}"
+                          @click="selectedToeHeel = '{{ value }}'">
+                          <span :class="{'font-medium': selectedToeHeel === '{{ value }}'}">{{ value }}</span>
+                        </button>
+                      {% endfor %}
+                    {% endif %}
                   {% endfor %}
                 </div>
               </div>
