@@ -1,0 +1,215 @@
+<div x-data="{selectedSize: '{{ product.product.variants[0].option1 }}', selectedWidth: '{{ product.product.variants[0].option2 }}', selectedToeHeel: '{{ product.product.variants[0].option3 }}', selectedPrice: '{{ product.product.variants[0].price }}', modalOpen: false }">
+  <section class="mx-4 my-4 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="breadcrumb-item">Home</span>
+      <img
+        src="/assets/images/slash.svg"
+        alt="Slash icon"
+        class="icon-slash" />
+      <span class="breadcrumb-item">All</span>
+      <img
+        src="/assets/images/slash.svg"
+        alt="Slash icon"
+        class="icon-slash" />
+      <span class="breadcrumb-item">Priscilla Suede</span>
+    </div>
+
+    <div class="flex items-center gap-4 flex-shrink-0 bg-white ">
+      <img
+        src="/assets/images/line.svg"
+        alt="Line icon"
+        class="icon-line" />
+      <button class="flex items-center gap-2">
+        <span class="uppercase tracking-[.2em] breadcrumb-item breadcrumb-share">
+          Share
+        </span>
+        <img
+          src="/assets/images/download.svg"
+          alt="Download icon"
+          class="icon-download" />
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <div
+      x-data="{ selectedImage: 0}"
+      data-images='{{ product.product.images | json }}'
+      x-init="images = JSON.parse($el.dataset.images)">
+      <div class="mb-0.5">
+        <img
+          :src="images[selectedImage].src"
+          class="w-full h-auto object-contain"
+          alt="Product image" />
+      </div>
+      <div class="flex gap-0.5 overflow-x-auto">
+        <template x-for="(img, idx) in images" :key="idx">
+          <img
+            :src="img.src"
+            class="w-[90px] object-cover cursor-pointer border-b-2"
+            :class="{' border-b-black': selectedImage === idx, 'border-b-transparent': selectedImage !== idx}"
+            @click="selectedImage = idx"
+            alt="Product thumbnail" />
+        </template>
+      </div>
+    </div>
+    <div class="px-4 mt-6">
+      <div>
+        <span class="text-sm">$</span>
+        <span x-text="parseInt(selectedPrice).toLocaleString()" class="text-sm"></span>
+        <h1 class="text-[28px] font-light uppercase">
+          {{ product.product.title | split: ' :: ' | first }}
+        </h1>
+      </div>
+      <div class="mt-6">
+        <span>Color:
+        </span>
+        <span>{{ product.product.title | split: ' :: ' | last }}</span>
+      </div>
+      <div>
+        <div
+          x-data="{ selectedColor: 0 }"
+          data-variants='{{ productVariants | json }}'
+          x-init="variants = JSON.parse($el.dataset.variants)">
+          <ul class="grid grid-cols-4">
+            <template x-for="(variant, idx) in variants" :key="idx">
+              <li
+                class="mt-4 inline-block relative before:content-[''] before:rounded-full before:absolute before:w-[48px] before:h-[48px]"
+                :class="{'before:border-black before:border-2 before:top-[-3px] before:left-[-3px]': selectedColor === idx, 'before:border-[#d9d9d9] before:border before:top-[-2px] before:left-[-2px]': selectedColor !== idx}"
+                @click="selectedColor = idx">
+                <div
+                  :style="`background-image: url(${variant})`"
+                  :class="{'w-[42px] h-[42px]': selectedColor === idx, 'w-[44px] h-[44px]': selectedColor !== idx}"
+                  class="rounded-full"></div>
+              </li>
+            </template>
+          </ul>
+          <div class="w-full h-px bg-[#d9d9d9] my-6"></div>
+          <span class="block uppercase text-sm text-[#4d4d4d]">Style no.{{ product.product.variants[0].sku }}</span>
+          <div class="w-full h-px bg-[#d9d9d9] my-6"></div>
+          <p class="text-lg">{{ product.product.body_html | replace: '<p>', '' | replace: '</p>', '' | split: 'a boot' | first }}...</p>
+          <button class="text-lg text-[#0C2752] py-3 underline">Read more below</button>
+          <div class="bg-[#FAFAFA] mt-2 py-2 px-4">
+            <span>Selected:</span>
+            <div class="flex items-center gap-1 text-sm">
+              <span>Size:</span>
+              <span x-text="selectedSize" class="font-bold"></span>
+              <span class="block w-px h-4 flex-basis-[1px] bg-[#d9d9d9]"></span>
+              <span>Width:</span>
+              <span x-text="selectedWidth" class="font-bold"></span>
+              <span class="block w-px h-4 flex-basis-[1px] bg-[#d9d9d9]"></span>
+              <span>Toe + heel:</span>
+              <span x-text="selectedToeHeel" class="font-bold"></span>
+            </div>
+          </div>
+          <button class="w-full border flex items-center justify-between p-4 mb-6 h-14" @click="modalOpen = true">
+            <span class="uppercase text-sm tracking-[2px]">Choose size</span>
+            <img
+              src="/assets/images/chevron.svg"
+              alt="Chevron icon"
+              class="icon-chevron">
+          </button>
+          <button class="w-full border uppercase text-sm tracking-[2px] p-4 mb-6 bg-[#0C2752] text-white h-16 sticky bottom-0">
+            Add to cart - $<span x-text="parseInt(selectedPrice).toLocaleString()"></span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        x-show="modalOpen"
+        x-cloak
+        class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center"
+        @click.away="modalOpen = false">
+        <div class="bg-white w-full h-full overflow-y-auto">
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-200 pb-4">
+              <h2 class="text-xl font-light uppercase">Choose Size</h2>
+              <button @click="modalOpen = false" class="text-gray-500 hover:text-gray-700">
+                <img
+                  src="/assets/images/close.svg"
+                  alt="Close icon"
+                  class="w-6 h-6">
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              <div>
+                <span>Size:</span>
+                <div class="grid grid-cols-4 gap-2 mt-2">
+                  {% for variant in product.product.variants %}
+                    <button
+                      class="p-[10px] border w-[59px] h-[56px]"
+                      :class="{'border-2': selectedSize === '{{ variant.option1 }}'}"
+                      @click="selectedSize = '{{ variant.option1 }}'">
+                      <span :class="{'font-medium': selectedSize === '{{ variant.option1 }}'}">{{ variant.option1 }}</span>
+                    </button>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mt-8">
+                <span>Width:</span>
+                <div class="grid grid-cols-4 gap-2 mt-2">
+                  {% assign unique_widths = '' | split: '' %}
+                  {% for variant in product.product.variants %}
+                    {% unless unique_widths contains variant.option2 %}
+                      {% assign unique_widths = unique_widths | push: variant.option2 %}
+                      <button
+                        class="p-[10px] border w-[59px] h-[56px]"
+                        :class="{'border-2': selectedWidth === '{{ variant.option2 }}'}"
+                        @click="selectedWidth = '{{ variant.option2 }}'">
+                        <span :class="{'font-medium': selectedWidth === '{{ variant.option2 }}'}">{{ variant.option2 }}</span>
+                      </button>
+                    {% endunless %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="mt-8">
+                <span>Toe + heel:</span>
+                <div class="grid grid-cols-4 gap-2 mt-2">
+                  {% assign unique_widths = '' | split: '' %}
+                  {% for variant in product.product.variants %}
+                    {% unless unique_widths contains variant.option3 %}
+                      {% assign unique_widths = unique_widths | push: variant.option3 %}
+                      <button
+                        class="p-[10px] border w-max h-[56px]"
+                        :class="{'border-2': selectedToeHeel === '{{ variant.option3 }}'}"
+                        @click="selectedToeHeel = '{{ variant.option3 }}'">
+                        <span :class="{'font-medium': selectedToeHeel === '{{ variant.option3 }}'}">{{ variant.option3 }}</span>
+                      </button>
+                    {% endunless %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class=" bg-[#FAFAFA] p-4 mt-4">
+                <span class="text-[#4D4D4D] mb-2 block">Selected toe + heel:</span>
+                <div class="flex items-center">
+                  <div class="flex items-center justify-center bg-white border border-solid border-[#d9d9d9] mr-4 w-[104px] h-[104px] p-2">
+                    <img
+                      loading="lazy"
+                      alt="S5"
+                      src="//www.lucchese.com/cdn/shop/files/toe_S5.svg?v=1730278736">
+                  </div>
+                  <div class="flex items-center justify-center bg-white border border-solid border-[#d9d9d9] mr-4 w-[104px] h-[104px] p-2">
+                    <img
+                      loading="lazy"
+                      alt="4"
+                      src="//www.lucchese.com/cdn/shop/files/heel_4.svg?v=1729488654">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="border-t border-[#d9d9d9] p-4 flex gap-2 sticky bottom-0">
+            <button class="text-[#0c2752] py-3 px-4 border border-solid w-auto border-[#0c2752] uppercase font-medium tracking-wide" @click="modalOpen = false">
+              Done
+            </button>
+            <button class="w-full bg-[#0C2752] text-white py-3 px-4 uppercase text-sm tracking-wide" @click="modalOpen = false">
+              Add to cart - $<span x-text="parseInt(selectedPrice).toLocaleString()"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
