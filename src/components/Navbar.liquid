@@ -1,5 +1,5 @@
-<nav x-data="{ isMenuOpen: false }">
-  <div class="flex items-center justify-between">
+<nav x-data="{ isMenuOpen: false }" class="pt-[6px] mx-1 sticky top-0 bg-white z-2">
+  <div class="flex items-center justify-between relative">
     <div class="h-full px-2.5">
       <button @click="isMenuOpen = !isMenuOpen">
         <img
@@ -14,7 +14,7 @@
       </button>
     </div>
     <div>
-      <a href="/">
+      <a href="/" class="absolute right-1/2 top-0 translate-x-1/2 ">
         <img
           src="//www.lucchese.com/cdn/shop/files/Lucchese_Bootmaker_RGB_04086.png?v=1614632364&amp;width=320"
           alt="Lucchese Bootmaker Logotype"
